@@ -1,0 +1,57 @@
+table dim_location
+	lineageTag: 62a77c0e-1ae7-4a5b-a029-56720c5cffa0
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 81787719-9a1d-46fe-b38b-bac81e87c032
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: c33c67f3-b989-484b-8983-1bd4b85d2d0d
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column country_code
+		dataType: string
+		lineageTag: ef2bee9c-5383-49b3-8476-69a7a46545f2
+		summarizeBy: none
+		sourceColumn: country_code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_location = m
+		mode: import
+		queryGroup: dim
+		source =
+				let
+				    Source = clean_data_Barcelona,
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"job_id", "company", "employment_type", "job_description", "job_title", "date", "level", "skills", "hard_skill_id", "hard_skill", "AI_flag"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Columns","Catalonia, Spain","ES",Replacer.ReplaceText,{"location"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each true),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Filtered Rows", "location", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"location.1", "location.2"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"location.1", type text}, {"location.2", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"location.1", "city"}, {"location.2", "country_code"}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Renamed Columns", {"city"}),
+				    #"Appended Query" = Table.Combine({#"Removed Duplicates", dim_location_budapest}),
+				    #"Appended Query1" = Table.Combine({#"Appended Query", dim_location_madrid}),
+				    #"Appended Query2" = Table.Combine({#"Appended Query1", dim_location_Valencia}),
+				    #"Appended Query3" = Table.Combine({#"Appended Query2", dim_location_milan}),
+				    #"Appended Query4" = Table.Combine({#"Appended Query3", dim_location_torino}),
+				    #"Added Index" = Table.AddIndexColumn(#"Appended Query4", "Index", 1, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "city", "country_code"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Index", "location_key"}}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Renamed Columns1",{{"country_code", Text.Trim, type text}, {"city", Text.Trim, type text}})
+				in
+				    #"Trimmed Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

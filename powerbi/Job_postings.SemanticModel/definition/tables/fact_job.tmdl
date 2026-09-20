@@ -1,0 +1,115 @@
+table fact_job
+	lineageTag: 02a50acd-619e-4a33-a5ea-d8cf7acc8553
+
+	column job_id
+		dataType: string
+		lineageTag: 308e77db-3eb4-45e1-9337-43ab6522d575
+		summarizeBy: none
+		sourceColumn: job_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ea106c73-2f0f-4515-90dc-1720368b17b4
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: 2b60831a-997a-4541-8c07-46362a0e3fd9
+			defaultHierarchy: LocalDateTable_0f50a452-2a55-43c7-938c-2b643ce9fa31.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column AI_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: 62630da4-e6e0-4351-b2f6-d16408dcb9e5
+		summarizeBy: sum
+		sourceColumn: AI_flag
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 0a2b19cb-7ac1-4af4-9d61-2914229c0630
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column country_code
+		dataType: string
+		lineageTag: e0595384-5b0a-4b80-bdbc-d522e8b8267f
+		summarizeBy: none
+		sourceColumn: country_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column hard_skill_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f5dd4af6-41b4-4515-91a1-dfb4d955faa7
+		summarizeBy: none
+		sourceColumn: hard_skill_key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_job = m
+		mode: import
+		queryGroup: fact
+		source =
+				let
+				    Source = clean_data_Barcelona,
+				    #"Appended Query" = Table.Combine({Source, clean_data_Barcelona2, clean_data_Budapest, clean_data_Madrid, clean_data_Milan, clean_data_Torino, clean_data_Valencia}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Appended Query",{"level.1", "job_description"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Columns","Catalonia, Spain","ES",Replacer.ReplaceText,{"location"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Hungary","n/a, HU",Replacer.ReplaceText,{"location"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Budapest, n/a, HU","Budapest, HU",Replacer.ReplaceText,{"location"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Budapest Metropolitan Area, HU","Budapest, HU",Replacer.ReplaceText,{"location"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","Spain","n/a, ES",Replacer.ReplaceText,{"location"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value4","Almusafes, Valencian Community, Spain","Almusafes, ES",Replacer.ReplaceText,{"location"}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Replaced Value7", "location", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"location.1", "location.2"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"location.1", type text}, {"location.2", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each true),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows",{{"location.1", "city"}, {"location.2", "country_code"}}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Renamed Columns","13th district of Budapest","Budapest",Replacer.ReplaceText,{"city"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","Budapest Metropolitan Area","Budapest",Replacer.ReplaceText,{"city"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value6",null,"ES",Replacer.ReplaceValue,{"country_code"}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Replaced Value8",{{"country_code", Text.Trim, type text}, {"city", Text.Trim, type text}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Trimmed Text", {"city"}, dim_location, {"city"}, "dim_location", JoinKind.LeftOuter),
+				    #"Expanded dim_location" = Table.ExpandTableColumn(#"Merged Queries", "dim_location", {"location_key"}, {"dim_location.location_key"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded dim_location",{"job_id", "company", "employment_type", "job_title", "dim_location.location_key", "city", "country_code", "date", "level", "skills", "hard_skill_id", "hard_skill", "AI_flag"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"dim_location.location_key", "location_key"}}),
+				    #"Split Column by Delimiter1" = Table.ExpandListColumn(Table.TransformColumns(#"Renamed Columns1", {{"skills", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "skills"),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter1",{{"skills", type text}}),
+				    #"Split Column by Delimiter2" = Table.ExpandListColumn(Table.TransformColumns(#"Changed Type1", {{"hard_skill", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "hard_skill"),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter2",{{"hard_skill", type text}}),
+				    #"Split Column by Delimiter3" = Table.ExpandListColumn(Table.TransformColumns(#"Changed Type2", {{"hard_skill_id", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "hard_skill_id"),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Split Column by Delimiter3",{{"hard_skill_id", Int64.Type}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Changed Type3", each ([skills] = " Communication" or [skills] = " Git" or [skills] = " Go" or [skills] = " Leadership" or [skills] = " Python" or [skills] = " Recruitment" or [skills] = " SQL" or [skills] = "AI")),
+				    #"Trimmed Text1" = Table.TransformColumns(#"Filtered Rows1",{{"skills", Text.Trim, type text}, {"hard_skill", Text.Trim, type text}}),
+				    #"Filtered Rows2" = Table.SelectRows(#"Trimmed Text1", each ([skills] <> "Communication" and [skills] <> "Leadership" and [skills] <> "Recruitment")),
+				    #"Merged Columns" = Table.CombineColumns(#"Filtered Rows2",{"skills", "hard_skill"},Combiner.CombineTextByDelimiter(",", QuoteStyle.None),"hard_skills"),
+				    #"Split Column by Delimiter4" = Table.ExpandListColumn(Table.TransformColumns(#"Merged Columns", {{"hard_skills", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "hard_skills"),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Split Column by Delimiter4",{{"hard_skills", type text}}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Changed Type4", {"hard_skills"}, dim_hard_skills, {"hard_skill_name"}, "dim_hard_skills", JoinKind.LeftOuter),
+				    #"Expanded dim_hard_skills" = Table.ExpandTableColumn(#"Merged Queries1", "dim_hard_skills", {"hard_skill_id"}, {"dim_hard_skills.hard_skill_id"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded dim_hard_skills",{"hard_skill_id", "company", "employment_type", "job_title", "city", "level", "hard_skills"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns1",{{"dim_hard_skills.hard_skill_id", "hard_skill_key"}}),
+				    #"Reordered Columns1" = Table.ReorderColumns(#"Renamed Columns2",{"hard_skill_key", "job_id", "location_key", "country_code", "date", "AI_flag"}),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Reordered Columns1",{{"date", type date}})
+				in
+				    #"Changed Type5"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

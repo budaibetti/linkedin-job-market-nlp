@@ -1,0 +1,207 @@
+expression dim_location_budapest =
+		let
+		    Source = clean_data_Budapest,
+		    #"Removed Columns" = Table.RemoveColumns(Source,{"job_id", "company", "employment_type", "job_description", "job_title", "date", "level", "skills", "hard_skill_id", "hard_skill", "AI_flag"}),
+		    #"Replaced Value" = Table.ReplaceValue(#"Removed Columns","Hungary","n/a, HU",Replacer.ReplaceText,{"location"}),
+		    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each true),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Filtered Rows","Budapest, n/a, HU","Budapest, HU",Replacer.ReplaceText,{"location"}),
+		    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","13th district of Budapest, HU","Budapest, HU",Replacer.ReplaceText,{"location"}),
+		    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Budapest Metropolitan Area, HU","Budapest, HU",Replacer.ReplaceText,{"location"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Replaced Value3"),
+		    #"Split Column by Delimiter" = Table.SplitColumn(#"Removed Duplicates", "location", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"location.1", "location.2"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"location.1", type text}, {"location.2", type text}}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"location.1", "city"}, {"location.2", "country_code"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: ea712682-5a4d-4a74-bf70-642b68140357
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression dim_location_madrid =
+		let
+		    Source = clean_data_Madrid,
+		    #"Removed Columns" = Table.RemoveColumns(Source,{"job_id", "company", "employment_type", "level", "job_description", "job_title", "date", "level.1", "skills", "hard_skill_id", "hard_skill", "AI_flag"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
+		    #"Replaced Value" = Table.ReplaceValue(#"Removed Duplicates","Spain","n/, ES",Replacer.ReplaceText,{"location"}),
+		    #"Split Column by Delimiter" = Table.SplitColumn(#"Replaced Value", "location", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"location.1", "location.2"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"location.1", type text}, {"location.2", type text}}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Changed Type","n/","n/a",Replacer.ReplaceText,{"location.1"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value1",{{"location.1", "city"}, {"location.2", "country_code"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: 005568fa-2fe9-4ff1-8e5e-382239cc8bb6
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression dim_location_Valencia =
+		let
+		    Source = clean_data_Valencia,
+		    #"Removed Columns" = Table.RemoveColumns(Source,{"job_id", "company", "employment_type", "job_description", "job_title", "date", "level", "skills", "hard_skill_id", "hard_skill", "AI_flag"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
+		    #"Replaced Value" = Table.ReplaceValue(#"Removed Duplicates","Almusafes, Valencian Community, Spain","Almusafes, ES",Replacer.ReplaceText,{"location"}),
+		    #"Split Column by Delimiter" = Table.SplitColumn(#"Replaced Value", "location", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"location.1", "location.2"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"location.1", type text}, {"location.2", type text}}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"location.1", "city"}, {"location.2", "country_code"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: 1ec6f297-9261-4209-80fa-04df7228267c
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression dim_location_milan =
+		let
+		    Source = clean_data_Milan,
+		    #"Removed Columns" = Table.RemoveColumns(Source,{"job_id", "company", "employment_type", "job_description", "job_title", "date", "level", "skills", "hard_skill_id", "hard_skill", "AI_flag"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
+		    #"Split Column by Delimiter" = Table.SplitColumn(#"Removed Duplicates", "location", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"location.1", "location.2"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"location.1", type text}, {"location.2", type text}}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"location.1", "city"}, {"location.2", "country_code"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: e74e7fb5-ee5a-4013-b24f-77bad1927b12
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression dim_location_torino =
+		let
+		    Source = clean_data_Torino,
+		    #"Removed Columns" = Table.RemoveColumns(Source,{"job_id", "company", "employment_type", "job_description", "job_title", "date", "level", "skills", "hard_skill_id", "hard_skill", "AI_flag"}),
+		    #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
+		    #"Split Column by Delimiter" = Table.SplitColumn(#"Removed Duplicates", "location", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"location.1", "location.2"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"location.1", type text}, {"location.2", type text}}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"location.1", "city"}, {"location.2", "country_code"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: dc9c1c16-f6e5-4bf7-9b58-98cd56ab0ac9
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression clean_data_Barcelona =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    clean_data_Barcelona_Sheet = Source{[Item="clean_data_Barcelona",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Barcelona_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: db23d1a3-1605-4bcf-8fbf-b0a8f21c18e2
+	queryGroup: raw_data
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression clean_data_Barcelona2 =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    clean_data_Barcelona2_Sheet = Source{[Item="clean_data_Barcelona2",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Barcelona2_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: a238afda-45e8-4d57-a228-8c318125b8b9
+	queryGroup: raw_data
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression clean_data_Budapest =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    clean_data_Budapest_Sheet = Source{[Item="clean_data_Budapest",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Budapest_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 624f6c61-0365-42f2-8238-4c4729b7332b
+	queryGroup: raw_data
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression clean_data_Madrid =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    clean_data_Madrid_Sheet = Source{[Item="clean_data_Madrid",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Madrid_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"level", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level.1", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"job_id", "company", "employment_type", "job_description", "job_title", "location", "date", "level", "level.1", "skills", "hard_skill_id", "hard_skill", "AI_flag"})
+		in
+		    #"Reordered Columns"
+	lineageTag: 8e9a1e81-9bed-4ee3-9032-c343ff655ae7
+	queryGroup: raw_data
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression clean_data_Milan =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    clean_data_Milan_Sheet = Source{[Item="clean_data_Milan",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Milan_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: f55ba0f9-795e-411b-acb2-53e1784964db
+	queryGroup: raw_data
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression clean_data_Torino =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    clean_data_Torino_Sheet = Source{[Item="clean_data_Torino",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Torino_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: 3b3b401b-8aa0-46c5-93ee-0b7ae0cd996c
+	queryGroup: raw_data
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression clean_data_Valencia =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    clean_data_Valencia_Sheet = Source{[Item="clean_data_Valencia",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Valencia_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: bcabd191-e4b9-4c27-bd4a-ffa557a8418e
+	queryGroup: raw_data
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression hard_skill_list =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    hard_skill_list_Sheet = Source{[Item="hard_skill_list",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(hard_skill_list_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"hard_skill_id", Int64.Type}, {"hard_skill_name", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: ed42a10e-9c06-4adc-845f-20011da3655f
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

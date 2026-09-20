@@ -1,0 +1,33 @@
+table dim_hard_skills
+	lineageTag: 2d8197bf-0117-4bf3-91ea-333b82ffb6ec
+
+	column hard_skill_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 99b9c09e-f4bb-4d7d-a024-482b244d0a54
+		summarizeBy: none
+		sourceColumn: hard_skill_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column hard_skill_name
+		dataType: string
+		lineageTag: 9d4cbf3b-702c-4e36-b0fd-d4372c1230eb
+		summarizeBy: none
+		sourceColumn: hard_skill_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_hard_skills = m
+		mode: import
+		queryGroup: dim
+		source =
+				let
+				    Source = hard_skill_list
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,33 @@
+# ==========================================
+# Power BI Settings & Local Cache
+# ==========================================
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+*.user.json
+.pbi/
+cache.abf
+
+# ==========================================
+# Python Temporary Files & Environments
+# ==========================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# ==========================================
+# Excel & Temporary OS Files
+# ==========================================
+# Temporary lock files created when Excel is open
+~$*.xlsx
+~$*.xls
+
+# Operating System files
+.DS_Store
+Thumbs.db
+ehthumbs.db

@@ -1,0 +1,27 @@
+relationship AutoDetected_153018fc-af6c-455d-95cc-28cab6caace9
+	fromColumn: fact_job.location_key
+	toColumn: dim_location.location_key
+
+relationship AutoDetected_e06da6aa-a04f-4407-b76e-21d7623fde2a
+	fromColumn: fact_job.hard_skill_key
+	toColumn: dim_hard_skills.hard_skill_id
+
+relationship AutoDetected_a7bc82e0-6bfa-492c-9ea6-ce9456ffcab2
+	fromColumn: fact_job.job_id
+	toColumn: dim_job.job_id
+
+relationship 4ab27c72-b487-4b80-8490-bbeb4909ef01
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_job.date
+	toColumn: LocalDateTable_ce8a995b-bb56-46dc-b2e0-7976130ed0fd.Date
+
+relationship 2b60831a-997a-4541-8c07-46362a0e3fd9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_job.date
+	toColumn: LocalDateTable_0f50a452-2a55-43c7-938c-2b643ce9fa31.Date
+
+relationship c3e00523-5949-4989-903d-0c436361953a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.date
+	toColumn: LocalDateTable_c1196210-c1b2-42c3-beb2-62a3a061325c.Date
+
