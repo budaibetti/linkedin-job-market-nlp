@@ -15,13 +15,12 @@ relationship 4ab27c72-b487-4b80-8490-bbeb4909ef01
 	fromColumn: dim_job.date
 	toColumn: LocalDateTable_ce8a995b-bb56-46dc-b2e0-7976130ed0fd.Date
 
-relationship 2b60831a-997a-4541-8c07-46362a0e3fd9
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_job.date
-	toColumn: LocalDateTable_0f50a452-2a55-43c7-938c-2b643ce9fa31.Date
-
 relationship c3e00523-5949-4989-903d-0c436361953a
 	joinOnDateBehavior: datePartOnly
 	fromColumn: dim_date.date
 	toColumn: LocalDateTable_c1196210-c1b2-42c3-beb2-62a3a061325c.Date
+
+relationship 08cb82ec-2a17-06ba-97b9-ded7c124bf8a
+	fromColumn: fact_job.date
+	toColumn: dim_date.date
 

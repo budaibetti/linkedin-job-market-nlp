@@ -1,0 +1,31 @@
+table '_Key Measures'
+	lineageTag: 115f8c5a-02cf-4d0c-8e25-e4d12ad8f5b2
+
+	measure 'Total Jobs' = DISTINCTCOUNT((fact_job[job_id]))
+		formatString: 0
+		lineageTag: 24d0f222-ac43-4c3b-bbac-ac10beadfce7
+
+	measure 'Countries Per Job' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_job[country_code]),
+			    ALLEXCEPT(
+			        fact_job,
+			        fact_job[job_id]
+			    )
+			)
+		formatString: 0
+		lineageTag: 6d23c245-5efc-4f44-921a-01db37285456
+
+	partition '_Key Measures' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

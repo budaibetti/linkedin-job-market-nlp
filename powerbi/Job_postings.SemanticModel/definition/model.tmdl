@@ -21,7 +21,7 @@ queryGroup fact
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["clean_data_Barcelona","clean_data_Barcelona2","clean_data_Budapest","clean_data_Madrid","clean_data_Milan","clean_data_Torino","clean_data_Valencia","hard_skill_list","dim_hard_skills","dim_location","dim_job","dim_location_budapest","dim_location_madrid","dim_location_Valencia","dim_location_milan","dim_location_torino","fact_job"]
+annotation PBI_QueryOrder = ["clean_data_Barcelona","clean_data_Barcelona2","clean_data_Budapest","clean_data_Madrid","clean_data_Milan","clean_data_Torino","clean_data_Valencia","hard_skill_list","dim_hard_skills","dim_location","dim_job","dim_location_budapest","dim_location_madrid","dim_location_Valencia","dim_location_milan","dim_location_torino","fact_job","_Key Measures"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -32,8 +32,8 @@ ref table dim_job
 ref table dim_date
 ref table DateTableTemplate_df5cb9b3-e261-43db-a905-e82debfe49f3
 ref table LocalDateTable_ce8a995b-bb56-46dc-b2e0-7976130ed0fd
-ref table LocalDateTable_0f50a452-2a55-43c7-938c-2b643ce9fa31
 ref table LocalDateTable_c1196210-c1b2-42c3-beb2-62a3a061325c
+ref table '_Key Measures'
 
 ref cultureInfo en-US
 

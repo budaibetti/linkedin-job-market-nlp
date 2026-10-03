@@ -57,6 +57,15 @@ table dim_job
 
 		annotation SummarizationSetBy = Automatic
 
+	column ai_mention
+		dataType: int64
+		formatString: 0
+		lineageTag: 13d49eb3-382c-4240-82cd-75dff88e1420
+		summarizeBy: sum
+		sourceColumn: ai_mention
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_job = m
 		mode: import
 		queryGroup: dim
@@ -99,9 +108,14 @@ table dim_job
 				    #"Expanded dim_hard_skills" = Table.ExpandTableColumn(#"Merged Queries1", "dim_hard_skills", {"hard_skill_id"}, {"dim_hard_skills.hard_skill_id"}),
 				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded dim_hard_skills",{"hard_skill_id", "location_key", "city", "country_code", "AI_flag", "dim_hard_skills.hard_skill_id", "hard_skills"}),
 				    #"Removed Duplicates" = Table.Distinct(#"Removed Columns1", {"job_id"}),
-				    #"Changed Type5" = Table.TransformColumnTypes(#"Removed Duplicates",{{"date", type date}})
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Removed Duplicates",{{"date", type date}}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Changed Type5", {"job_id"}, fact_job, {"job_id"}, "fact_job", JoinKind.LeftOuter),
+				    #"Expanded fact_job" = Table.ExpandTableColumn(#"Merged Queries2", "fact_job", {"AI_flag"}, {"fact_job.AI_flag"}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Expanded fact_job", {"job_id"}),
+				    #"Changed Type6" = Table.TransformColumnTypes(#"Removed Duplicates1",{{"fact_job.AI_flag", Int64.Type}}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Changed Type6",{{"fact_job.AI_flag", "ai_mention"}})
 				in
-				    #"Changed Type5"
+				    #"Renamed Columns2"
 
 	annotation PBI_NavigationStepName = Navigation
 

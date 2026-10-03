@@ -16,11 +16,6 @@ table fact_job
 		summarizeBy: none
 		sourceColumn: date
 
-		variation Variation
-			isDefault
-			relationship: 2b60831a-997a-4541-8c07-46362a0e3fd9
-			defaultHierarchy: LocalDateTable_0f50a452-2a55-43c7-938c-2b643ce9fa31.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -37,7 +32,7 @@ table fact_job
 		annotation SummarizationSetBy = Automatic
 
 	column location_key
-		dataType: int64
+		dataType: double
 		formatString: 0
 		lineageTag: 0a2b19cb-7ac1-4af4-9d61-2914229c0630
 		summarizeBy: none
@@ -84,7 +79,14 @@ table fact_job
 				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","Budapest Metropolitan Area","Budapest",Replacer.ReplaceText,{"city"}),
 				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value6",null,"ES",Replacer.ReplaceValue,{"country_code"}),
 				    #"Trimmed Text" = Table.TransformColumns(#"Replaced Value8",{{"country_code", Text.Trim, type text}, {"city", Text.Trim, type text}}),
-				    #"Merged Queries" = Table.NestedJoin(#"Trimmed Text", {"city"}, dim_location, {"city"}, "dim_location", JoinKind.LeftOuter),
+				    #"Merged Queries" = Table.NestedJoin(
+				    #"Trimmed Text",
+				    {"country_code", "city"},
+				    dim_location,
+				    {"country_code", "city"},
+				    "dim_location",
+				    JoinKind.LeftOuter
+				),
 				    #"Expanded dim_location" = Table.ExpandTableColumn(#"Merged Queries", "dim_location", {"location_key"}, {"dim_location.location_key"}),
 				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded dim_location",{"job_id", "company", "employment_type", "job_title", "dim_location.location_key", "city", "country_code", "date", "level", "skills", "hard_skill_id", "hard_skill", "AI_flag"}),
 				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"dim_location.location_key", "location_key"}}),
@@ -105,9 +107,11 @@ table fact_job
 				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded dim_hard_skills",{"hard_skill_id", "company", "employment_type", "job_title", "city", "level", "hard_skills"}),
 				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns1",{{"dim_hard_skills.hard_skill_id", "hard_skill_key"}}),
 				    #"Reordered Columns1" = Table.ReorderColumns(#"Renamed Columns2",{"hard_skill_key", "job_id", "location_key", "country_code", "date", "AI_flag"}),
-				    #"Changed Type5" = Table.TransformColumnTypes(#"Reordered Columns1",{{"date", type date}})
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Reordered Columns1",{{"date", type date}}),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Changed Type5","Valencian Community","ES",Replacer.ReplaceText,{"country_code"}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9",null,57,Replacer.ReplaceValue,{"location_key"})
 				in
-				    #"Changed Type5"
+				    #"Replaced Value10"
 
 	annotation PBI_NavigationStepName = Navigation
 

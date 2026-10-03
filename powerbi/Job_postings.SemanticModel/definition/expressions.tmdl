@@ -88,7 +88,7 @@ expression dim_location_torino =
 
 expression clean_data_Barcelona =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\data\final_data\merged_postings_final.xlsx"), null, true),
 		    clean_data_Barcelona_Sheet = Source{[Item="clean_data_Barcelona",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Barcelona_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}})
@@ -103,7 +103,7 @@ expression clean_data_Barcelona =
 
 expression clean_data_Barcelona2 =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\data\final_data\merged_postings_final.xlsx"), null, true),
 		    clean_data_Barcelona2_Sheet = Source{[Item="clean_data_Barcelona2",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Barcelona2_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}})
@@ -118,7 +118,7 @@ expression clean_data_Barcelona2 =
 
 expression clean_data_Budapest =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\data\final_data\merged_postings_final.xlsx"), null, true),
 		    clean_data_Budapest_Sheet = Source{[Item="clean_data_Budapest",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Budapest_Sheet, [PromoteAllScalars=true])
 		in
@@ -132,7 +132,7 @@ expression clean_data_Budapest =
 
 expression clean_data_Madrid =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\data\final_data\merged_postings_final.xlsx"), null, true),
 		    clean_data_Madrid_Sheet = Source{[Item="clean_data_Madrid",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Madrid_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"level", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level.1", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}}),
@@ -148,7 +148,7 @@ expression clean_data_Madrid =
 
 expression clean_data_Milan =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\data\final_data\merged_postings_final.xlsx"), null, true),
 		    clean_data_Milan_Sheet = Source{[Item="clean_data_Milan",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Milan_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}})
@@ -163,7 +163,7 @@ expression clean_data_Milan =
 
 expression clean_data_Torino =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\data\final_data\merged_postings_final.xlsx"), null, true),
 		    clean_data_Torino_Sheet = Source{[Item="clean_data_Torino",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Torino_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}, {"company", type text}, {"employment_type", type text}, {"job_description", type text}, {"job_title", type text}, {"location", type text}, {"date", type date}, {"level", type text}, {"skills", type text}, {"hard_skill_id", type text}, {"hard_skill", type text}, {"AI_flag", Int64.Type}})
@@ -178,7 +178,7 @@ expression clean_data_Torino =
 
 expression clean_data_Valencia =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\data\final_data\merged_postings_final.xlsx"), null, true),
 		    clean_data_Valencia_Sheet = Source{[Item="clean_data_Valencia",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(clean_data_Valencia_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"job_id", type text}})
@@ -193,7 +193,7 @@ expression clean_data_Valencia =
 
 expression hard_skill_list =
 		let
-		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\final_data\merged_postings_final.xlsx"), null, true),
+		    Source = Excel.Workbook(File.Contents("C:\Users\Betti\Desktop\Portfolio projektek\Lindkedin jobs\data\final_data\merged_postings_final.xlsx"), null, true),
 		    hard_skill_list_Sheet = Source{[Item="hard_skill_list",Kind="Sheet"]}[Data],
 		    #"Promoted Headers" = Table.PromoteHeaders(hard_skill_list_Sheet, [PromoteAllScalars=true]),
 		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"hard_skill_id", Int64.Type}, {"hard_skill_name", type text}})
