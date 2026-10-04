@@ -21,13 +21,10 @@ table fact_job
 		annotation UnderlyingDateTimeDataType = Date
 
 	column AI_flag
-		dataType: int64
-		formatString: 0
+		dataType: string
 		lineageTag: 62630da4-e6e0-4351-b2f6-d16408dcb9e5
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: AI_flag
-
-		changedProperty = DataType
 
 		annotation SummarizationSetBy = Automatic
 

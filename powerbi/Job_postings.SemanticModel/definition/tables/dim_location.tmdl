@@ -26,6 +26,20 @@ table dim_location
 
 		annotation SummarizationSetBy = Automatic
 
+	column country_name =
+			
+			SWITCH(
+			    dim_location[country_code],
+			    "ES", "Spain",
+			    "HU", "Hungary",
+			    "IT", "Italy",
+			    dim_location[country_code]
+			)
+		lineageTag: 86d222d4-960a-4e02-a32f-2be2ad60abc3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_location = m
 		mode: import
 		queryGroup: dim

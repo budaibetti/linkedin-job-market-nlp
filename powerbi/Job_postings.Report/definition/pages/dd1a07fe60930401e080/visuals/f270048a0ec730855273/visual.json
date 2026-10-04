@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "f270048a0ec730855273",
   "position": {
-    "x": 971.52984137087731,
+    "x": 942.71327827936818,
     "y": 0,
     "z": 2000,
     "height": 157.80498835826396,
     "width": 262.09350240372538,
-    "tabOrder": 2000
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -17,24 +17,17 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_job"
-                        }
-                      },
-                      "Property": "ai_mention"
+                    "SourceRef": {
+                      "Entity": "_Key Measures"
                     }
                   },
-                  "Function": 0
+                  "Property": "AI Mentions"
                 }
               },
-              "queryRef": "Sum(dim_job.fact_job.AI_flag)",
-              "nativeQueryRef": "AI mentions",
-              "displayName": "AI mentions",
-              "format": "0"
+              "queryRef": "_Key Measures.AI Mentions",
+              "nativeQueryRef": "AI Mentions"
             }
           ]
         }
@@ -43,18 +36,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Measure": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "dim_job"
-                      }
-                    },
-                    "Property": "ai_mention"
+                  "SourceRef": {
+                    "Entity": "_Key Measures"
                   }
                 },
-                "Function": 0
+                "Property": "AI Mentions"
               }
             },
             "direction": "Descending"
@@ -140,13 +128,6 @@
         },
         {
           "properties": {
-            "labelPrecision": {
-              "expr": {
-                "Literal": {
-                  "Value": "0L"
-                }
-              }
-            },
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
@@ -156,7 +137,7 @@
             }
           },
           "selector": {
-            "metadata": "Sum(dim_job.fact_job.AI_flag)"
+            "metadata": "_Key Measures.AI Mentions"
           }
         }
       ],

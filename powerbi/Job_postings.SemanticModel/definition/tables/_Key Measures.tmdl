@@ -17,6 +17,21 @@ table '_Key Measures'
 		formatString: 0
 		lineageTag: 6d23c245-5efc-4f44-921a-01db37285456
 
+	measure 'AI Mentions' =
+			
+			VAR VisibleJobs =
+			    VALUES(fact_job[job_id])
+			RETURN
+			    CALCULATE(
+			        SUM(dim_job[ai_mention]),
+			        TREATAS(
+			            VisibleJobs,
+			            dim_job[job_id]
+			        )
+			    )
+		formatString: 0
+		lineageTag: bf7c037e-48e9-4652-a2a0-78ed677b5ca9
+
 	partition '_Key Measures' = m
 		mode: import
 		source =
