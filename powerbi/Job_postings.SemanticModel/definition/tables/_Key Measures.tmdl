@@ -32,6 +32,18 @@ table '_Key Measures'
 		formatString: 0
 		lineageTag: bf7c037e-48e9-4652-a2a0-78ed677b5ca9
 
+	measure 'Avg. Hard Skills / Job' =
+			
+			AVERAGEX(
+			    VALUES(fact_job[job_id]),
+			    CALCULATE(
+			        DISTINCTCOUNT(fact_job[hard_skill_id]),
+			        fact_job[hard_skill_id] <> 0
+			    )
+			)
+		formatString: 0
+		lineageTag: 2e80ad81-f846-4417-b0af-b6d9e9099e4d
+
 	partition '_Key Measures' = m
 		mode: import
 		source =

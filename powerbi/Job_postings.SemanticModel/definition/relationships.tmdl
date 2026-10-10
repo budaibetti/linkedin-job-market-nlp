@@ -3,7 +3,7 @@ relationship AutoDetected_153018fc-af6c-455d-95cc-28cab6caace9
 	toColumn: dim_location.location_key
 
 relationship AutoDetected_e06da6aa-a04f-4407-b76e-21d7623fde2a
-	fromColumn: fact_job.hard_skill_key
+	fromColumn: fact_job.hard_skill_id
 	toColumn: dim_hard_skills.hard_skill_id
 
 relationship AutoDetected_a7bc82e0-6bfa-492c-9ea6-ce9456ffcab2

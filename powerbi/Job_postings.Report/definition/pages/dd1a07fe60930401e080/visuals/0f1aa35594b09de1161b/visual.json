@@ -4,7 +4,7 @@
   "position": {
     "x": 12.349955610646745,
     "y": 96.055210305030243,
-    "z": 4500,
+    "z": 4000,
     "height": 98.799644885173961,
     "width": 194.8548551902042,
     "tabOrder": 2000
@@ -269,23 +269,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "394be828fd99c1cd33f9",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_location"
-              }
-            },
-            "Property": "country_name"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

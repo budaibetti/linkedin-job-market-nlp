@@ -45,12 +45,12 @@ table fact_job
 
 		annotation SummarizationSetBy = Automatic
 
-	column hard_skill_key
+	column hard_skill_id
 		dataType: int64
 		formatString: 0
 		lineageTag: f5dd4af6-41b4-4515-91a1-dfb4d955faa7
 		summarizeBy: none
-		sourceColumn: hard_skill_key
+		sourceColumn: hard_skill_id
 
 		annotation SummarizationSetBy = Automatic
 
@@ -106,9 +106,10 @@ table fact_job
 				    #"Reordered Columns1" = Table.ReorderColumns(#"Renamed Columns2",{"hard_skill_key", "job_id", "location_key", "country_code", "date", "AI_flag"}),
 				    #"Changed Type5" = Table.TransformColumnTypes(#"Reordered Columns1",{{"date", type date}}),
 				    #"Replaced Value9" = Table.ReplaceValue(#"Changed Type5","Valencian Community","ES",Replacer.ReplaceText,{"country_code"}),
-				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9",null,57,Replacer.ReplaceValue,{"location_key"})
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9",null,57,Replacer.ReplaceValue,{"location_key"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Replaced Value10",{{"hard_skill_key", "hard_skill_id"}})
 				in
-				    #"Replaced Value10"
+				    #"Renamed Columns3"
 
 	annotation PBI_NavigationStepName = Navigation
 
